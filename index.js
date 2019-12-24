@@ -6,6 +6,7 @@ const fs = require('fs');
 const youtubedl = require('youtube-dl');
 
 const { getinfo } = require('./src/youtube');
+const { notFound, errorHandler } = require('./src/errorHandler');
 
 const app = express();
 require('dotenv').config();
@@ -19,18 +20,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 
-app.get('/', async (req, res) => {
+app.get('/', async (req, res, next) => {
   try {
     const info = await getinfo(youtubedl, YOUTUBE_URL);
     console.log(info);
   } catch (error) {
-    console.error(error);
+    next(error);
   }
   res.json({
     status: 200,
     message: 'Successfully connected',
   });
 });
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT} -> http://${HOST}:${PORT}`);
