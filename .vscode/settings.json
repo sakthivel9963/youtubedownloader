@@ -1,0 +1,21 @@
+// workspace setting for node and react
+{
+  // Prettier setting
+  "prettier.singleQuote": true,
+  "prettier.tabWidth": 2,
+  "prettier.disableLanguages": ["javascript", "javascriptreact"],
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": false
+  },
+  "prettier.trailingComma": "es5",
+  "prettier.arrowParens": "always",
+  // Eslint setting
+  "eslint.autoFixOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
