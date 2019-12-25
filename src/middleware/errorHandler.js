@@ -14,10 +14,9 @@ exports.errorHandler = (error, req, res, next) => {
       req.method
     } - ${req.ip}`
   );
-
   res.status(status).json({
     message,
     status,
-    stack,
+    stack: process.env.NODE_ENV === 'production' ? '🥞' : stack,
   });
 };
