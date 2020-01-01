@@ -9,7 +9,7 @@ exports.getinfo = (youtubedl, youtubeUrl) =>
   });
 
 exports.downloadVideo = (youtubedl, fs, url, output) =>
-  new Promise((resolve, reject) => {
+  new Promise(resolve => {
     let downloaded = 0;
 
     if (fs.existsSync(output)) {
