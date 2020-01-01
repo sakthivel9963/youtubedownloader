@@ -16,7 +16,7 @@ exports.downloadVideo = (youtubedl, fs, url, output) =>
       downloaded = fs.statSync(output).size;
     }
     // format option should be choosen
-    const video = youtubedl(url, ['--format=18'], {
+    const video = youtubedl(url, ['--merge-output-format=mp4'], {
       start: downloaded,
       cwd: __dirname,
     });

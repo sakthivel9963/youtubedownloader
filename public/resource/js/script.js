@@ -23,11 +23,12 @@ const displayVideoInfo = info => {
   videoImage.innerHTML = `<img src=${thumbnail} alt="image"  class="img-thumbnail mx-auto d-block img-fluid" />`;
   videoDetails.innerHTML = `
   <h4>${fulltitle}</h4>
-  <p><span>Video Duration</span>:<span>${durationHms}</span></p>
-  <p><span>Video Format</span>:<span>${formatNote}</span></p>
-  <a class="btn btn-danger" data-quality="720" data-type="mp4" download="${_filename}" href="${url}" data-ga-event="send;event;result;click;101">Download Video</a>
+  <p><span>Video Duration</span> : <span>${durationHms}</span></p>
+  <p><span>Video Format</span> : <span>${formatNote}</span></p>
+  <a class="btn btn-danger" download="${_filename}" href="http://localhost:5000/download?fileName=${_filename}" >Download Video</a>
   `;
 };
+// <a class="btn btn-danger" download="${_filename}" href="data:video/mp4;charset:video/mp4,${url}">Download Video</a>
 
 const getUrlInfo = async event => {
   event.preventDefault();

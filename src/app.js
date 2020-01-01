@@ -40,9 +40,8 @@ app.get('/url', async (req, res, next) => {
       thumbnail,
       description,
     } = info;
-    // const fileDir = `${appRoot}/videos/${_filename}`;
-
-    // await downloadVideo(youtubedl, fs, YOUTUBE_URL, fileDir);
+    const fileDir = `${appRoot}/videos/${_filename}`;
+    await downloadVideo(youtubedl, fs, YOUTUBE_URL, fileDir);
     res.json({
       formatNote,
       fulltitle,
@@ -59,17 +58,8 @@ app.get('/url', async (req, res, next) => {
 
 app.get('/download', async (req, res, next) => {
   try {
-    const YOUTUBE_URL = `https://www.youtube.com/watch?v=LdOM0x0XDMo`;
-    const info = await getinfo(youtubedl, YOUTUBE_URL);
-    const {
-      format_note: formatNote,
-      fulltitle,
-      _filename,
-      url,
-      _duration_hms: durationHms,
-      thumbnail,
-      description,
-    } = info;
+    const { fileName } = req.query;
+    const url = `${appRoot}/videos/${fileName}`;
     res.download(url);
   } catch (error) {
     next(error);
