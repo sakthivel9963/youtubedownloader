@@ -40,9 +40,9 @@ app.get('/url', async (req, res, next) => {
       thumbnail,
       description,
     } = info;
-    const fileDir = `${appRoot}/videos/${_filename}`;
+    // const fileDir = `${appRoot}/videos/${_filename}`;
 
-    await downloadVideo(youtubedl, fs, YOUTUBE_URL, fileDir);
+    // await downloadVideo(youtubedl, fs, YOUTUBE_URL, fileDir);
     res.json({
       formatNote,
       fulltitle,
