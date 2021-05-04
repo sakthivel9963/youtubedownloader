@@ -2,11 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
-const youtubedl = require('youtube-dl');
+const ytdl = require('ytdl-core');
 const fs = require('fs');
 const appRoot = require('app-root-path');
-
-const { getinfo, downloadVideo } = require('./youtube');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 const winston = require('./middleware/winston');
 
@@ -30,27 +28,14 @@ app.get('/', async (req, res, next) => {
 app.get('/url', async (req, res, next) => {
   try {
     const { url: YOUTUBE_URL } = req.query;
-    const info = await getinfo(youtubedl, YOUTUBE_URL);
-    const {
-      format_note: formatNote,
-      fulltitle,
-      _filename,
-      url,
-      _duration_hms: durationHms,
-      thumbnail,
-      description,
-    } = info;
-    const fileDir = `${appRoot}/videos/${_filename}`;
-    await downloadVideo(youtubedl, fs, YOUTUBE_URL, fileDir);
-    res.json({
-      formatNote,
-      fulltitle,
-      _filename,
-      url,
-      durationHms,
-      thumbnail,
-      description,
+    const videoId = await ytdl.getURLVideoID(YOUTUBE_URL);
+    const { videoDetails } = await ytdl.getInfo(videoId);
+    const responseJson = Object.freeze({
+      title: videoDetails.title,
+      desciription: videoDetails.description,
+      thumbnail: videoDetails.thumbnails[0].url,
     });
+    res.send({ responseJson });
   } catch (error) {
     next(error);
   }
@@ -58,9 +43,16 @@ app.get('/url', async (req, res, next) => {
 
 app.get('/download', async (req, res, next) => {
   try {
-    const { fileName } = req.query;
-    const url = `${appRoot}/videos/${fileName}`;
-    res.download(url);
+    const { url: YOUTUBE_URL } = req.query;
+    const videoId = await ytdl.getURLVideoID(YOUTUBE_URL);
+    const { videoDetails } = await ytdl.getInfo(videoId);
+    res.header(
+      'Content-Disposition',
+      `attachment; filename="${videoDetails.title}.mp4"`
+    );
+    ytdl(YOUTUBE_URL, {
+      format: 'mp4',
+    }).pipe(res);
   } catch (error) {
     next(error);
   }
