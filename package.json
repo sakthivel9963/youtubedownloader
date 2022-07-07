@@ -27,7 +27,7 @@
     "express": "^4.17.1",
     "ffmpeg-static": "^4.3.0",
     "file-saver": "^2.0.5",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "morgan": "^1.10.0",
     "winston": "^3.3.3",
     "ytdl-core": "^4.7.0"
